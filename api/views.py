@@ -75,4 +75,7 @@ def restResponse(request):
 
 
     # final response
-    return HttpResponse(result)
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    return HttpResponse(json.dumps(result), headers=headers)
