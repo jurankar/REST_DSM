@@ -2,6 +2,7 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import json
+from urllib.parse import unquote
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -71,7 +72,8 @@ def restResponse(request):
     elif mode == 3:
         # parsing expressions
         expression = request.build_absolute_uri().split("=")[1]
-        result = eval(expression)
+        expressionDecoded = unquote(expression)
+        result = eval(expressionDecoded)
 
 
     # final response
