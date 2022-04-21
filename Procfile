@@ -1,0 +1,1 @@
+web: gunicorn REST_DSM.wsgi --log-file -
