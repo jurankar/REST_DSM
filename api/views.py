@@ -50,7 +50,7 @@ def restResponse(request):
         # temperature
         urlTemp = "http://dataservice.accuweather.com/currentconditions/v1/" + locationKey + "?apikey=A79lROjjMQ2FIzBLbUBJcqD6pJIRYy6B"
         resTemp = json.loads(requests.get(urlTemp).text)
-        result = str(resTemp[0]["Temperature"]["Metric"]["Value"])
+        result = resTemp[0]["Temperature"]["Metric"]["Value"]
 
     elif mode == 2:
         # stocks
