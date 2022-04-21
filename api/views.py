@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 
 from rest_framework.decorators import api_view
@@ -33,6 +33,9 @@ def restResponse(request):
         result = None
 
     elif mode == 1:
+        apiKey1 = "A79lROjjMQ2FIzBLbUBJcqD6pJIRYy6B"
+        apiKey2 = "AZL439gSIXgT9HSXCkXjJyifaZm2WDuK"
+
         # airport
         baseApiUrlAirport = "https://www.airport-data.com/api/ap_info.json?iata="
         iataCode = request.GET.get("queryAirportTemp")
@@ -43,12 +46,12 @@ def restResponse(request):
         long = res["longitude"]
 
         # location
-        urlLocation = " http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=A79lROjjMQ2FIzBLbUBJcqD6pJIRYy6B&q=" + lat + "%2C" + long
+        urlLocation = " http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey="+ apiKey2 + "&q=" + lat + "%2C" + long
         resLocation = json.loads(requests.get(urlLocation).text)
         locationKey = resLocation["Key"]
 
         # temperature
-        urlTemp = "http://dataservice.accuweather.com/currentconditions/v1/" + locationKey + "?apikey=A79lROjjMQ2FIzBLbUBJcqD6pJIRYy6B"
+        urlTemp = "http://dataservice.accuweather.com/currentconditions/v1/" + locationKey + "?apikey=" + apiKey2
         resTemp = json.loads(requests.get(urlTemp).text)
         result = resTemp[0]["Temperature"]["Metric"]["Value"]
 
@@ -72,7 +75,4 @@ def restResponse(request):
 
 
     # final response
-    jsonRes = JsonResponse({
-        "result": result
-    })
-    return jsonRes
+    return HttpResponse(result)
